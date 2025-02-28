@@ -3,7 +3,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 import express from "express";
 import axios from "axios";
-import { vercel } from "vercel";
 
 // Resolve the current directory
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -71,5 +70,5 @@ app.use("*", async (req, res) => {
   }
 });
 
-// Export for Vercel deployment
-export default vercel(app);
+// Export the Express app for Vercel
+export default app;
