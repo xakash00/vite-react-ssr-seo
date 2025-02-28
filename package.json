@@ -4,13 +4,8 @@
   "description": "Simple React SSR with Vite and Express",
   "type": "module",
   "scripts": {
-    "dev": "node server-dev.js",
-    "build:client": "vite build --outDir dist/client",
-    "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server",
-    "build": "npm run build:client && npm run build:server",
-    "serve": "node server-prod.js",
-    "start": "node server-prod.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+   "build": "npm run build:client && npm run build:server",
+    "start": "node server-prod.js"
   },  
   "keywords": [],
   "author": "",
