@@ -29,13 +29,12 @@ app.use('*', async (req, res) => {
     const metaTags = `<meta charset="UTF-8">
     <title>${response.data.title ?? "Vite + React + SEO"}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content=${response.data.description ?? "The goal is to improve the site’s ranking on search engine results pages (SERP) for specific keywords."}>
-    <meta name="keywords" content=${response.data.category ?? "Store"}>
+    <meta name="description" content="${response.data.description ?? "The goal is to improve the site’s ranking on search engine results pages (SERP) for specific keywords."}">
+    <meta name="keywords" content="${response.data.category ?? "Store"}">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content=${response.data.title ?? "Vite + React + SEO"} />
-    <meta property="og:type" content=${response.data.category ?? "Store"} />
-    <meta property="og:url" content="https://www.imdb.com/title/tt0117500/" />
-    <meta property="og:image" content=${response.data.image} />
+    <meta property="og:title" content="${response.data.title ?? "Vite + React + SEO"}" />
+    <meta property="og:type" content="${response.data.category ?? "Store"}"/>
+    <meta property="og:image" content="${response.data.image}" />
     `
 
 
