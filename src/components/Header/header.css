@@ -1,0 +1,47 @@
+/* Basic header styling */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #FCFCFC;
+    color: #0093c4;
+    box-shadow: 0px 0px 7px #ccc;
+    width: 100%;
+}
+
+/* Logo styling */
+.logo {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+/* Navigation links */
+.nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav a:hover {
+    color: #ffcc00;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav {
+        margin-top: 10px;
+        flex-direction: column;
+        gap: 10px;
+    }
+}

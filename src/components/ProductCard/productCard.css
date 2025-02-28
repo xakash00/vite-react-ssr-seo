@@ -1,0 +1,52 @@
+/* ProductCard.css */
+.card {
+    width: 280px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    text-align: center;
+    background: #fff;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    padding: 10px;
+    background: #f8f8f8;
+}
+
+.product-title {
+    font-size: 1rem;
+    margin: 10px;
+    color: #333;
+    height: 40px;
+    overflow: hidden;
+}
+
+.product-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #0093c4;
+    margin: 5px 0;
+}
+
+.button {
+    background: #0093c4;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.button:hover {
+    background: #007ba7;
+}
