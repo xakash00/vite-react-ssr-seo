@@ -10,7 +10,8 @@
     "build": "npm run build:client && npm run build:server",
     "serve": "node server-prod.js",
     "start": "node server-prod.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "vercel-build": "npm run build"
   },  
   "keywords": [],
   "author": "",

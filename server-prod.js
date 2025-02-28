@@ -1,62 +1,75 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import express from 'express';
-import axios from 'axios';
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import express from "express";
+import axios from "axios";
+import { vercel } from "vercel";
 
+// Resolve the current directory
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
-// Serve static files from the 'dist/client' directory
-app.use(express.static(path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'dist/client'), { index: false }));
+// Serve static files from 'dist/client'
+app.use(express.static(path.join(__dirname, "dist/client"), { index: false }));
 
-app.use('*', async (req, res) => {
+// Universal route handler
+app.use("*", async (req, res) => {
   try {
     // Read the HTML template
-    const template = fs.readFileSync('./dist/client/index.html', 'utf-8');
+    const templatePath = path.join(__dirname, "dist/client/index.html");
+    const template = fs.readFileSync(templatePath, "utf-8");
 
     // Extract URL, query parameters, and route parameters
-    const url = req.originalUrl; // Full URL
-    const queryParams = req.query; // Query parameters (e.g., ?name=John)
-    const routeParams = req.params; // Route parameters (e.g., /users/:id)
+    const url = req.originalUrl;
+    const queryParams = req.query;
+    const routeParams = req.params;
 
-    console.log('URL:', url);
-    console.log('Query Parameters:', queryParams);
-    console.log('Route Parameters:', routeParams);
+    console.log("URL:", url);
+    console.log("Query Parameters:", queryParams);
+    console.log("Route Parameters:", routeParams);
 
-    // Example: Fetch data from an API using query or route parameters
-    const response = await axios.get(`https://fakestoreapi.com${routeParams[0]}`);
+    // Fetch dynamic data from an API
+    const apiUrl = `https://fakestoreapi.com${routeParams[0]}`;
+    let responseData = {};
 
-    const metaTags = `<meta charset="UTF-8">
-    <title>${response.data.title ?? "Vite + React + SEO"}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="${response.data.description ?? "The goal is to improve the site’s ranking on search engine results pages (SERP) for specific keywords."}">
-    <meta name="keywords" content="${response.data.category ?? "Store"}">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="${response.data.title ?? "Vite + React + SEO"}" />
-    <meta property="og:type" content="${response.data.category ?? "Store"}"/>
-    <meta property="og:image" content="${response.data.image}" />
-    `
+    try {
+      const response = await axios.get(apiUrl);
+      responseData = response.data;
+    } catch (apiError) {
+      console.warn("API request failed:", apiError.message);
+    }
 
+    // Generate dynamic meta tags
+    const metaTags = `
+      <meta charset="UTF-8">
+      <title>${responseData.title || "Vite + React + SEO"}</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="${responseData.description || "SEO-friendly React SSR App"}">
+      <meta name="keywords" content="${responseData.category || "Store"}">
+      <meta name="robots" content="index, follow">
+      <meta property="og:title" content="${responseData.title || "Vite + React + SEO"}" />
+      <meta property="og:type" content="${responseData.category || "Store"}"/>
+      <meta property="og:image" content="${responseData.image || ""}" />
+    `;
 
-    // Dynamically import the server entry point
-    const { render } = await import('./dist/server/entry-server.js');
+    // Import the server entry file dynamically (ESM compatibility)
+    const { render } = await import(path.join(__dirname, "dist/server/entry-server.js"));
 
-    // Render the app and pass the URL, query, and params to the render function
-    const appHtml = render({ url, queryParams, routeParams });
+    // Render the app and pass the data
+    const appHtml = await render({ url, queryParams, routeParams });
 
-    // Replace placeholders in the template with the rendered app and Helmet data
+    // Replace placeholders in the template
     const html = template
       .replace(`<!--outlet-->`, appHtml)
       .replace(`<!--helmet-->`, metaTags);
 
-    // Send the final HTML to the client
-    res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+    // Send response
+    res.status(200).set({ "Content-Type": "text/html" }).end(html);
   } catch (error) {
-    console.error(error);
-    res.status(500).end('Internal Server Error');
+    console.error("SSR Error:", error);
+    res.status(500).end("Internal Server Error");
   }
 });
 
-app.listen(5173, () => {
-  console.log('http://localhost:5173.');
-});
+// Export for Vercel deployment
+export default vercel(app);
