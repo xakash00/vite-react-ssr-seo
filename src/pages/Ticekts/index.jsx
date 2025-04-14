@@ -29,7 +29,7 @@ const Tickets = () => {
         <>
             <div>
                 <div className="heading">{total > 0 && `Total Price - ${total}`}</div>
-                <ul className="container" onClick={handleBooking}>
+                <ul className="ticket-container" onClick={handleBooking}>
                     {seatData.map((seat) => {
                         return (
                             <li
@@ -43,7 +43,7 @@ const Tickets = () => {
                     })}
                 </ul>
                 {tickets.length > 0 &&
-                    <div className="container">
+                    <div className="ticket-container">
                         <div className="heading">Your Tickets</div>
                         <div className="flex" onClick={handleBooking}>
                             {tickets.map((seat) => {

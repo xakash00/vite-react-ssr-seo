@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const storedData = () => {
     if (typeof window !== "undefined") {
-        const data = localStorage.getItem("Booked-Tickets");
+        const data = localStorage.getItem("s");
         if (data) {
             return JSON.parse(data);
         }
